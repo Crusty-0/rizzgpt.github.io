@@ -22,8 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     input.value = "";
 
     try {
-      // Send to your Render backend
-      const response = await fetch("https://rizzbot-backend.onrender.com/api/chat", {
+      const response = await fetch("https://rizzgpt-backend.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage })
