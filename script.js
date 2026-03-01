@@ -1,7 +1,11 @@
-console.log("Script loaded");
 async function sendMessage() {
-  const input = document.getElementById("userInput");
-  const chatBox = document.getElementById("chatBox");
+  const input = document.getElementById("user-input");
+  const chatBox = document.getElementById("chat-box");
+
+  if (!input || !chatBox) {
+    console.error("Missing HTML elements.");
+    return;
+  }
 
   const userMessage = input.value.trim();
   if (!userMessage) return;
@@ -22,8 +26,7 @@ async function sendMessage() {
 
     chatBox.innerHTML += `<div class="bot">${data.reply}</div>`;
   } catch (err) {
+    console.error(err);
     chatBox.innerHTML += `<div class="bot">Error connecting to AI.</div>`;
   }
-
 }
-
