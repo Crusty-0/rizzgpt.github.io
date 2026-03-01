@@ -12,47 +12,42 @@ app.use(express.json());
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 app.post("/api/chat", async (req, res) => {
-  try {
-    const { message } = req.body;
+  const { message } = req.body;
 
-const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-  input: [
-    {
-      role: "system",
-      content: [
-        {
-          type: "text",
-          text: "You are RizzBot, a flirty and confident AI. Only respond with charming, smooth, rizz-style replies. Never break character."
-        }
-      ]
-    },
-    {
-      role: "user",
-      content: [{ type: "text", text: message }]
-    }
-  ]
-})
-  }
-);
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              // RizzBot system instructions + user message
+              parts: [
+                {
+                  text: `You are RizzBot, a flirty and confident AI. Only respond with charming, smooth, rizz-style replies. Never break character.
+
+User: ${message}`
+                }
+              ]
+            }
+          ]
+        })
+      }
+    );
 
     const data = await response.json();
-
-    // Log full response for debugging
-    console.log("Gemini response:", JSON.stringify(data, null, 2));
+    console.log("Gemini full response:", data);
 
     const reply =
       data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No response from Gemini.";
+      "No response from RizzBot.";
 
     res.json({ reply });
   } catch (err) {
-    console.error("Error in /api/chat:", err);
-    res.status(500).json({ error: "Something broke." });
+    console.error("Error calling Gemini:", err);
+    res.status(500).json({ reply: "Error connecting to AI." });
   }
 });
 
