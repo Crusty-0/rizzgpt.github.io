@@ -1,39 +1,39 @@
 // script.js
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Function to send the user message to the backend and display replies
+  // Grab elements
+  const input = document.getElementById("user-input");
+  const chatBox = document.getElementById("chat-box");
+  const button = document.getElementById("send-button");
+
+  // Safety check
+  if (!input || !chatBox || !button) {
+    console.error("Missing HTML elements:", { input, chatBox, button });
+    return;
+  }
+
+  // Function to send messages
   async function sendMessage() {
-    const input = document.getElementById("user-input");
-    const chatBox = document.getElementById("chat-box");
-
-    // Safety check
-    if (!input || !chatBox) {
-      console.error("Missing HTML elements.");
-      return;
-    }
-
     const userMessage = input.value.trim();
     if (!userMessage) return;
 
-    // Show user's message in chat
+    // Display user's message
     chatBox.innerHTML += `<div class="user">${userMessage}</div>`;
     input.value = "";
 
     try {
-      // Send message to Render backend
-      const response = await fetch("https://rizzgpt-backend.onrender.com/api/chat", {
+      // Send to your Render backend
+      const response = await fetch("https://rizzbot-backend.onrender.com/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage })
       });
 
       const data = await response.json();
 
-      // Show bot reply in chat
+      // Display bot reply
       chatBox.innerHTML += `<div class="bot">${data.reply}</div>`;
-      chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+      chatBox.scrollTop = chatBox.scrollHeight;
     } catch (err) {
       console.error(err);
       chatBox.innerHTML += `<div class="bot">Error connecting to AI.</div>`;
@@ -41,13 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Attach click handler to the Send button
-  const button = document.querySelector("button");
+  // Attach click and Enter key events
   button.addEventListener("click", sendMessage);
-
-  // Optional: allow pressing Enter to send
-  const inputField = document.getElementById("user-input");
-  inputField.addEventListener("keydown", (e) => {
+  input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
 });
