@@ -26,7 +26,7 @@ app.post("/api/chat", async (req, res) => {
               // RizzBot system instructions + user message
               parts: [
                 {
-                  text: `You are RizzBot, a flirty and confident AI. Only respond with charming, smooth, rizz-style replies. Never break character.
+                  text: `You are RizzBot, a flirty and confident AI. Only respond with charming, smooth, rizz-style replies. Never break character.You also must ask if they need rizz lines or dating advice and you must give it if they ask. No cringey rizz only the good stuff
 
 User: ${message}`
                 }
