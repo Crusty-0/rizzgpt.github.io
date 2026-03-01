@@ -9,7 +9,7 @@ async function sendMessage() {
   input.value = "";
 
   try {
-    const response = await fetch("http://localhost:3000/api/chat", {
+    const response = await fetch("https://rizzgpt-backend.onrender.com/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -23,4 +23,5 @@ async function sendMessage() {
   } catch (err) {
     chatBox.innerHTML += `<div class="bot">Error connecting to AI.</div>`;
   }
+
 }
