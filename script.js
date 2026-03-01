@@ -1,3 +1,4 @@
+console.log("Script loaded");
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const chatBox = document.getElementById("chatBox");
@@ -25,3 +26,4 @@ async function sendMessage() {
   }
 
 }
+
