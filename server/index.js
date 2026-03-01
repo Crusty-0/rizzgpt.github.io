@@ -15,17 +15,16 @@ app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
 
-    // Gemini request
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: message }] }]
-        })
-      }
-    );
+const response = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: message }] }]
+    })
+  }
+);
 
     const data = await response.json();
 
@@ -49,9 +48,3 @@ app.listen(PORT, () => {
 });
 
 
-// add this somewhere in your index.js
-const listModels = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`
-);
-const modelsList = await listModels.json();
-console.log("Available Gemini models:", modelsList);
