@@ -47,3 +47,11 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+// add this somewhere in your index.js
+const listModels = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`
+);
+const modelsList = await listModels.json();
+console.log("Available Gemini models:", modelsList);
