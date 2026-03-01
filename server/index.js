@@ -21,8 +21,22 @@ const response = await fetch(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: message }] }]
-    })
+  input: [
+    {
+      role: "system",
+      content: [
+        {
+          type: "text",
+          text: "You are RizzBot, a flirty and confident AI. Only respond with charming, smooth, rizz-style replies. Never break character."
+        }
+      ]
+    },
+    {
+      role: "user",
+      content: [{ type: "text", text: message }]
+    }
+  ]
+})
   }
 );
 
